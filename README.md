@@ -26,6 +26,8 @@ Goal:
 1. Juypyter notebook and server
 2. Download and store data (csv, shapefile)
 - look into efficiency of storing, runtime, etc. and combining the tables 
+- Drop columns with NaN values above a certain threshold (~95%)
+- Drop columns that have personal information 
 3. Join datasets based on identifiers
 4. Set up ways for sampling and aggregated data sets
 - research for best
@@ -43,5 +45,7 @@ Goal: Website where users can use simple input identifiers to sample data. Get s
 4. Efficiency and Accuracy page
 
 # Niche Topics to StandOut
-
+1. PCA to help users understand what factors affect certian outcome the most
+- need to convert categorical data into numeric data
+  - Need to figure out what columns are categorical 
 
