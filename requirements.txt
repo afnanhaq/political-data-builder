@@ -9,5 +9,14 @@ pip install scikit-learn
 #ArcGIS API
 conda install -c esri ArcGIS
 
+pip install arcgis
+
+
+
 #Janitor for jittering
 conda install pyjanitor -c conda-forge
+
+
+#Opening GIS link 
+pip install popen
+pip install subprocess.run
