@@ -1,5 +1,7 @@
 from flask import Flask
 from flask import request
+from flask import send_file
+from flask import send_from_directory
 import pandas as pd
 from zipfile import ZipFile
 
@@ -27,14 +29,11 @@ def getfile():
         sampleSize = json['data']['sampleSize']
         informationType = json['data']['informationType']
         outputType = json['data']['outputType']
-
         result = [sampleType, whichState, sampleTechnique, sampleSize,
                   informationType, outputType]
-        print(result)
         output = handle_request(sampleType, whichState, sampleTechnique, sampleSize,
                   informationType, outputType)
-        print(output)
-        return "hello"
+        return "works"
     else:
         return "response"
         

@@ -18,10 +18,10 @@ def visualization(df):
     '''
     gis = GIS(url='https://www.arcgis.com', username='sp21_cfp286', password='LoveData123')
 
-    df = df.loc[:, ['Residence_Addresses_Latitude', 'Residence_Addresses_Longitude']].dropna()
-    df['Residence_Addresses_Latitude'] = pd.to_numeric(df['Residence_Addresses_Latitude'])
-    df['Residence_Addresses_Longitude'] = pd.to_numeric(df['Residence_Addresses_Longitude'])
-    coord = (df[['Residence_Addresses_Longitude', 'Residence_Addresses_Latitude']])
+    df = df.loc[:, ['jittered_lat', 'jittered_long']].dropna()
+    df['jittered_lat'] = pd.to_numeric(df['jittered_lat'])
+    df['jittered_long'] = pd.to_numeric(df['jittered_long'])
+    coord = (df[['jittered_long', 'jittered_lat']])
     coord.columns = ['x', 'y']
     fc = gis.content.import_data(coord)
     fc_dict = dict(fc.properties)

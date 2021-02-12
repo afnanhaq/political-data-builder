@@ -1,7 +1,6 @@
 
 def remove_null(df):
-    threshold = int(df.shape[1] * 0.75)
-    df.dropna(thresh=threshold)
+    df.dropna(axis=1, inplace=True, how='all')
     return df
 
 #Remove null with threshold of 75% 
@@ -49,10 +48,11 @@ def drop_private(df):
                     ,'VoterTelephones_LandlineAreaCode'
                     ,'Residence_Addresses_State' 
                     ,'Residence_Addresses_LatLongAccuracy'
-                    ,'Mailing_Addresses_ZipPlus4']
-    
+                    ,'Mailing_Addresses_ZipPlus4',
+                    'Voters_StateVoterID',
+                    'VoterTelephones_LandlineFormatted']
     # getting the indices for columns containing private information
-    df.drop(private_cols, axis = 1, inplace = True)
+    df.drop(private_cols, axis = 1, inplace = True, errors='ignore')
     return df
 
 def drop_private_all(place_dic):

@@ -7,7 +7,7 @@ import sys
 
 
 import os
-#import janitor
+import janitor
 
 #Files to include 
 from remove import remove_null, drop_private
@@ -87,10 +87,10 @@ def zip_extractor(place):
     zip.close()
     demographics = pd.read_csv(demographics_file, 
                                 sep='\t', dtype=str, encoding='unicode_escape',
-                               nrows=1000)
+                               nrows=100000)
     vote_history = pd.read_csv(vote_history_file, 
                                 sep='\t', dtype=str, encoding='unicode_escape',
-                                nrows=1000)
+                                nrows=100000)
     return demographics, vote_history
 
 
@@ -152,23 +152,8 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
     #create global place_dic 
     global states_dict
     global place_dic
-    #EXTRACTING ZIPS 
-        #creating DataFrames
     
-
-    #Removing Nulls and Private Information 
-    #place_dic = remove_null(place_dic)
-
-    #TODO drop only for demographic
-    #place_dic = drop_private(place_dic)
-
-    #TODO National or StateWise 
-    #If National: 
-    #else: TODO replace filename 
-    #df = place_dic["AK_demographic"]
-
-    #TODO if demographic then jitter  -> National as well 
-
+    """
     if sampleType == "nationalSample":
         create_df()
         state_file_keys = get_state_keys()
@@ -179,13 +164,13 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
             pass
         else:
             pass
-    elif sampleType == "stateSample":
+    """
+    if sampleType == "stateSample":
         print(whichState)
         demographic, vote_history = zip_extractor(states_dict[whichState])
         
     if informationType == "VD":
         df = merge(demographic, vote_history) 
-        print(df)
     elif informationType == "V":
         df = demographic
     elif informationType == "D":
@@ -195,43 +180,42 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
         df = get_sample(df, .01)
     elif sampleSize == "fivepercent":
         df = get_sample(df, .05)
-        print(df)
     elif sampleSize == "tenpercent":
         df = get_sample(df, .10)
     elif sampleSize == "twentyfivepercent":
         df = get_sample(df, .25)
         
     
-    df = remove_null(df)
-    df = prelim_numeric_converter(df)
-    if informationType == "VD" or informationType == "D":
-        df = drop_private(df)
-    if informationType == "VD" or informationType == "V":
-        pass#df = election_numeric_converter(df)
     
+    df = prelim_numeric_converter(df)
+    if informationType == "VD" or informationType == "V":
+        df = jitter(df)
+    df = remove_null(df)
+    df = drop_private(df)
+    df = election_numeric_converter(df)
     if outputType == "csv":
-        output = df.to_csv(r'alabama-twentyfivepercent-sample.csv', index=False, encoding='utf-8')
+        output = df.to_csv("{}_{}_{}_sample.csv".format(whichState, sampleSize, informationType), index=False, encoding='utf-8')
     elif outputType == "tabfile":
         pass
     elif outputType == "shapefile":
         pass
-
-    return output
+    
+    if informationType == "VD" or informationType == "V":
+        link = visualization(df)
+        print(link)
+        if sys.platform=='win32':
+            os.startfile(link)
+        elif sys.platform=='darwin':
+            subprocess.Popen(['open', link])
+        else:
+            try:
+                subprocess.Popen(['xdg-open', link])
+            except OSError:
+                print('Please open a browser on: '+ link)
+    return True
     
     #Link for ArcGIS Data Visualization 
-    """
-    link = visualization(df)
-    print(link)
-    if sys.platform=='win32':
-        os.startfile(link)
-    elif sys.platform=='darwin':
-        subprocess.Popen(['open', link])
-    else:
-        try:
-            subprocess.Popen(['xdg-open', link])
-        except OSError:
-            print('Please open a browser on: '+ link)
-    """
+    
 
     #TODO only for demographic 
     # converting election results to numeric (resource heavy)
