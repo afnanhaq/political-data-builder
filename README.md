@@ -10,8 +10,9 @@ Deliverables:
 https://docs.google.com/document/d/e/2PACX-1vS1-LZisvTjE7qKXcrUZaw84BN84IDR9cNILyL9GU_-4lRE-er6wL_ItQ_AmQ74DNYdX2eY0fZtxcYR/pub
 
 # Time Frame Submissions
-[x] Declare team (Saturday) 
-[ ] Idea Video (Sunday 4pm)
+[X] Declare team (Saturday) 
+[X] Idea Video (Sunday 4pm)
+[_] Submission Video 
 [ ] Submission (Friday 1:30pm) 
 
 
@@ -19,6 +20,9 @@ https://docs.google.com/document/d/e/2PACX-1vS1-LZisvTjE7qKXcrUZaw84BN84IDR9cNIL
 - gis
 - Juypter Notebook 
 - Python
+- ArcGIS REST API -> interactive mapping system from the extracted, sample, aggregated and queried data. 
+- React 
+- Git
 
 # Opening Data, Jittering 
 Goal: 
