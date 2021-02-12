@@ -2,6 +2,7 @@
 
 # Function converts the obvious numeric columns into int/float
 def prelim_numeric_converter(df):
+    df.loc[:, df.columns.str.startswith('VotingPerformance')] = df.loc[:, df.columns.str.startswith('VotingPerformance')].replace(["%"], "", regex=True)
     df.loc[:, df.columns.str.startswith('Commercial')] = df.loc[:, df.columns.str.startswith('Commercial')].replace(["$"], "", regex=True)
     cols = df.columns
     for c in cols:
