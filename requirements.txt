@@ -2,8 +2,12 @@
 
 
 #connect ipynb files in jupyter
+pip install ipynb
 pip install ipynb --upgrade
+pip install scikit-learn
 
 #ArcGIS API
 conda install -c esri ArcGIS
 
+#Janitor for jittering
+conda install pyjanitor -c conda-forge
