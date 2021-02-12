@@ -1,9 +1,26 @@
+# -*- coding: utf-8 -*-
+"""
+The class remove is used for data anonymization and dropping of columns
+with over 75% NaN values. It implements privacy protection by dropping 
+columns containing personally identifiable information.
+"""
+
+# remove_null(df) reads in a dataset, drops columns that have 
+# over 75% of their values as NaN, and then returns the modified
+# dataframe
+# df: dataset for a state, pandas.DataFrame 
+# returns df, without columns that are primarily filled with nulls
 
 def remove_null(df):
     df.dropna(axis=1, inplace=True, how='all')
     return df
 
-#Remove null with threshold of 75% 
+# remove_null_all(place_dic) reads in all data from the global variable 
+# 'place_dic' and drops columns that have over 75% of their
+#  values as NaN, and then returns the modified dictionary
+# place_dic: dictionary, must be the global dictionary in 'main'
+# returns place_dic, without columns that are primarily filled with nulls
+    
 def remove_null_all(place_dic): 
     for key in place_dic.keys(): 
                         #finds 75% of columns 
@@ -12,6 +29,11 @@ def remove_null_all(place_dic):
 
     return place_dic
 
+# drop_private(df) reads in a dataset and drops columns 
+# that have identifiable data. it then returns the modified dictionary
+# df: dataset for a state, pandas.DataFrame 
+# returns df, without columns that have personally identifable info
+    
 def drop_private(df):
     # list of all columns that contain private information
     private_cols = ['VoterTelephones_Landline7Digit'
@@ -55,6 +77,12 @@ def drop_private(df):
     df.drop(private_cols, axis = 1, inplace = True, errors='ignore')
     return df
 
+# drop_private_all(place_dic) reads in all data from the global variable 
+# 'place_dic' and drops columns that have identifiable data.
+# it then returns the modified dictionary
+# place_dic: dictionary, must be the global dictionary in 'main'
+# returns place_dic, without columns that have personally identifable info
+
 def drop_private_all(place_dic):
     # list of all columns that contain private information
     private_cols = ['VoterTelephones_Landline7Digit'
@@ -91,9 +119,10 @@ def drop_private_all(place_dic):
                     ,'VoterTelephones_LandlineAreaCode'
                     ,'Residence_Addresses_State' 
                     ,'Residence_Addresses_LatLongAccuracy'
-                    ,'Mailing_Addresses_ZipPlus4']
+                    ,'Mailing_Addresses_ZipPlus4'
+                    ,'Voters_StateVoterID']
     
-    # getting the indices for columns containing private information
+    # dropping columns with the names listed in 'private_cols'
     for df in place_dic.values(): 
         df.drop(private_cols, axis = 1, inplace = True)
     return place_dic

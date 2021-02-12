@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
@@ -8,6 +7,7 @@ import sys
 
 import os
 import janitor
+
 
 #Files to include 
 from remove import remove_null, drop_private
@@ -76,8 +76,13 @@ states_dict = {
 }
 
 def zip_extractor(place):
-    # if there's an error, try \ instead of /
+    """
+    Unzips the files and 
+    Input: [str] : The folder location to unzip
+    Return: [dataframe] : The demographics and vote_history pandas dataframes to store in the place_dic
+    """
     file_name = "//storage.rcs.nyu.edu/L2_Political/03-01-2020-delivery/files-by-state/"+ place + ".zip"
+    #depending on OS 
     #file_name = "\\storage.rcs.nyu.edu\L2_Political\03-01-2020-delivery\files-by-state" + place + ".zip"
     # opening the zip file in READ mode 
     zip = ZipFile(file_name,'r') 
@@ -94,9 +99,9 @@ def zip_extractor(place):
     return demographics, vote_history
 
 
-
 def build_dict():
     for file in os.listdir('//storage.rcs.nyu.edu/L2_Political/03-01-2020-delivery/files-by-state/'):
+    #Depends on OS
     #for file in os.listdir('\\storage.rcs.nyu.edu\L2_Political\03-01-2020-delivery\files-by-state'):
         rename = file[file.find("--")+2:file.find("-2")-1]
 
@@ -107,8 +112,13 @@ def build_dict():
         place_dic["%s_voting_history" %rename] = vote_history
     
     
-#Iterates through all of the files by state and unzips 
 def create_df(): 
+    """
+    Iterates through all of the files by state, unzips, and saves in the global 
+    dictionary place_dic
+    Inputs: None
+    Return: None
+    """
     for file in os.listdir('//storage.rcs.nyu.edu/L2_Political/03-01-2020-delivery/files-by-state/'):
     #for file in os.listdir('\\storage.rcs.nyu.edu\L2_Political\03-01-2020-delivery\files-by-state'):
         rename = file[file.find("--")+2:file.find("-2")-1]
@@ -118,6 +128,7 @@ def create_df():
 
         place_dic["%s_demographic" %rename] = demographics
         place_dic["%s_voting_history" %rename] = vote_history
+
 
 def get_state_keys(): 
     return place_dic.keys()
@@ -132,7 +143,14 @@ def merge(state_demographic, state_vote_history):
                        how='left', left_on='LALVOTERID', right_on='LALVOTERID')
     return merged_file
 
+
 def jitter(df):
+    """
+    Takes in the dataframe and uses jittering to protect the location of the individual. 
+    This promotes security of information while still keeping the data accurate for analysis.
+    Input: [dataframe]: dataframe for specific analysis 
+    Returns: [dataframe]: dataframe with now protected users locations
+    """
     df['Residence_Addresses_Latitude'] = pd.to_numeric(df['Residence_Addresses_Latitude']) 
     df['Residence_Addresses_Longitude'] = pd.to_numeric(df['Residence_Addresses_Longitude']) 
     df.jitter(
@@ -148,12 +166,36 @@ def jitter(df):
     df = df.drop(columns=['Residence_Addresses_Latitude', 'Residence_Addresses_Longitude'])
     return df
     
+
 def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, outputType): 
+    """
+    The main functionality of the process. This calls files, functions, and returns updated 
+    dataframes. This also allows the user to save the dataframe as a CSV, TAB, and SHP file at the end. 
+    Data visualization platform will also automatically be opened hosted at ArcGIS through 
+    the ArcGIS REST API. 
+    """
     #create global place_dic 
     global states_dict
     global place_dic
     
+
     """
+
+
+    #Removing Nulls and Private Information 
+    #place_dic = remove_null(place_dic)
+
+    #TODO drop only for demographic
+    #place_dic = drop_private(place_dic)
+
+    #TODO National or StateWise 
+    #If National: 
+    #else: TODO replace filename 
+    #df = place_dic["AK_demographic"]
+
+    #TODO if demographic then jitter  -> National as well 
+    whichState = 'Arizona'
+
     if sampleType == "nationalSample":
         create_df()
         state_file_keys = get_state_keys()
@@ -164,6 +206,7 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
             pass
         else:
             pass
+
     """
     if sampleType == "stateSample":
         print(whichState)
@@ -184,7 +227,7 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
         df = get_sample(df, .10)
     elif sampleSize == "twentyfivepercent":
         df = get_sample(df, .25)
-        
+
     
     
     df = prelim_numeric_converter(df)
