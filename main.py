@@ -13,6 +13,7 @@ from remove import remove_null, drop_private
 from cleaning import *
 from jittering import *
 from classification import *
+from visualization import *
 
 #Global Variables
 #keys: State_typeOfFile        Item: DataFrame
@@ -103,6 +104,8 @@ def main():
     #creating numeric columns
     df = prelim_numeric_converter(df) 
 
+    link = visualization(df)
+    print(link)
     #TODO only for demographic 
     # converting election results to numeric (resource heavy)
     #df = election_numeric_converter()
