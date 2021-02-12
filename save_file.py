@@ -11,13 +11,10 @@ import pandas as pd
 from tkinter import * 
 from tkinter import ttk
 import geopandas
-# import only asksaveasfile from filedialog 
-# which is used to save file in any extension 
 from tkinter.filedialog import asksaveasfile 
 
 
-#Save File as CSV or TAB or ShapeFile 
-#TODO Finish this and test does not take in a df to save 
+#Save File as CSV or TAB or ShapeFile
 def start(df, outputType):
     root = Tk() 
     root.geometry('200x150') 
@@ -76,12 +73,6 @@ def merged_agg(df):
         print("Sorry, not Enough Information for a Voting History Breakdown")
 
 
-
-# demographic_agg(df) reads voter information and returns aggregated 
-# demographic information for each party
-# df: demographic/merged dataset, should be a pandas DataFrame
-# returns data, pd.DataFrame
-        
 def demographic_agg(df):
     try:
         df['counter'] = 1
@@ -90,12 +81,3 @@ def demographic_agg(df):
     except:
         print("Sorry, not Enough Information for a Demographic Breakdown")
 
-#TODO Delete this main below, only used for testing purposes
-def main():
-    data = [['tom', 10], ['nick', 15], ['juli', 14]] 
-  
-    # Create the pandas DataFrame 
-    df = pd.DataFrame(data, columns = ['Name', 'Age'])
-    start(df, outputType)
-
-main()

@@ -256,6 +256,8 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
             except OSError:
                 print('Please open a browser on: '+ link)
     return True
+
+    start(df, outputType)
     
     #Link for ArcGIS Data Visualization 
     
