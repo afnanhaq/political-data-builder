@@ -10,7 +10,7 @@ passed as arguements.
 import pandas as pd
 from tkinter import * 
 from tkinter import ttk
-import geopandas
+#import geopandas
 # import only asksaveasfile from filedialog 
 # which is used to save file in any extension 
 from tkinter.filedialog import asksaveasfile 

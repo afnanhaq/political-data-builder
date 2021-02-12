@@ -15,7 +15,7 @@ from cleaning import *
 from jittering import *
 from classification import *
 from visualization import *
-from save_file import *
+#from save_file import *
 
 #Global Variables
 #keys: State_typeOfFile        Item: DataFrame
@@ -90,12 +90,13 @@ def zip_extractor(place):
     demographics_file = zip.open(place + "-DEMOGRAPHIC.tab")
     vote_history_file = zip.open(place + "-VOTEHISTORY.tab")
     zip.close()
+    print("---------- Extracting Data File -----------")
     demographics = pd.read_csv(demographics_file, 
                                 sep='\t', dtype=str, encoding='unicode_escape',
-                               nrows=100000)
+                               nrows=100)
     vote_history = pd.read_csv(vote_history_file, 
                                 sep='\t', dtype=str, encoding='unicode_escape',
-                                nrows=100000)
+                                nrows=100)
     return demographics, vote_history
 
 
@@ -180,22 +181,7 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
     
 
     """
-
-
-    #Removing Nulls and Private Information 
-    #place_dic = remove_null(place_dic)
-
-    #TODO drop only for demographic
-    #place_dic = drop_private(place_dic)
-
-    #TODO National or StateWise 
-    #If National: 
-    #else: TODO replace filename 
-    #df = place_dic["AK_demographic"]
-
-    #TODO if demographic then jitter  -> National as well 
-    whichState = 'Arizona'
-
+    if running large national sample type which is 100+ GB
     if sampleType == "nationalSample":
         create_df()
         state_file_keys = get_state_keys()
@@ -211,6 +197,8 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
     if sampleType == "stateSample":
         print(whichState)
         demographic, vote_history = zip_extractor(states_dict[whichState])
+        
+
         
     if informationType == "VD":
         df = merge(demographic, vote_history) 
@@ -229,21 +217,23 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
         df = get_sample(df, .25)
 
     
-    
+    print("======= CLEANING DATA ========")
     df = prelim_numeric_converter(df)
     if informationType == "VD" or informationType == "V":
         df = jitter(df)
     df = remove_null(df)
     df = drop_private(df)
     df = election_numeric_converter(df)
+    print(df.head())
     if outputType == "csv":
         output = df.to_csv("{}_{}_{}_sample.csv".format(whichState, sampleSize, informationType), index=False, encoding='utf-8')
     elif outputType == "tabfile":
         pass
     elif outputType == "shapefile":
         pass
-    
+    print("======= DONE OUTPUTTING FILE. CHECK YOUR FOLDER ===========")
     if informationType == "VD" or informationType == "V":
+        #Link for ArcGIS Data Visualization 
         link = visualization(df)
         print(link)
         if sys.platform=='win32':
@@ -257,12 +247,8 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
                 print('Please open a browser on: '+ link)
     return True
     
-    #Link for ArcGIS Data Visualization 
     
-
-    #TODO only for demographic 
-    # converting election results to numeric (resource heavy)
-    #df = election_numeric_converter()
+    
 
 
     """
@@ -281,13 +267,3 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
     """
     #Imputation using Machine Learning
     #call_classification(df)
-
-    #PCA 
-    #TODO if time 
-
-    #Saving Resulting DataFrame to CSV
-    #TODO pass in the df to save in save_file.py
-    #start()
-    #stripped_sample.to_csv(r'virginia-onepercent-sample.csv', index=False, encoding='utf-8')
-
-
