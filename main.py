@@ -236,12 +236,6 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
     df = remove_null(df)
     df = drop_private(df)
     df = election_numeric_converter(df)
-    if outputType == "csv":
-        output = df.to_csv("{}_{}_{}_sample.csv".format(whichState, sampleSize, informationType), index=False, encoding='utf-8')
-    elif outputType == "tabfile":
-        pass
-    elif outputType == "shapefile":
-        pass
     
     if informationType == "VD" or informationType == "V":
         link = visualization(df)
