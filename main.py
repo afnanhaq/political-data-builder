@@ -93,10 +93,10 @@ def zip_extractor(place):
     print("---------- Extracting Data File -----------")
     demographics = pd.read_csv(demographics_file, 
                                 sep='\t', dtype=str, encoding='unicode_escape',
-                               nrows=100)
+                               nrows=10000)
     vote_history = pd.read_csv(vote_history_file, 
                                 sep='\t', dtype=str, encoding='unicode_escape',
-                                nrows=100)
+                                nrows=10000)
     return demographics, vote_history
 
 
@@ -195,10 +195,7 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
 
     """
     if sampleType == "stateSample":
-        print(whichState)
         demographic, vote_history = zip_extractor(states_dict[whichState])
-        
-
         
     if informationType == "VD":
         df = merge(demographic, vote_history) 
@@ -228,9 +225,9 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
     if outputType == "csv":
         output = df.to_csv("{}_{}_{}_sample.csv".format(whichState, sampleSize, informationType), index=False, encoding='utf-8')
     elif outputType == "tabfile":
-        pass
+        output = df.to_csv("{}_{}_{}_sample.tsv".format(whichState, sampleSize, informationType), index=False, encoding='utf-8', sep="\t")
     elif outputType == "shapefile":
-        pass
+        output = df.to_csv("{}_{}_{}_sample.csv".format(whichState, sampleSize, informationType), index=False, encoding='utf-8')
     print("======= DONE OUTPUTTING FILE. CHECK YOUR FOLDER ===========")
 
     if informationType == "VD" or informationType == "V":
