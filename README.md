@@ -1,55 +1,56 @@
 # political-data-builder
 
-Deliverables: 
-- Web program to access anonymized datasets from L2 
-- A Jupyter Notebook explaining the data transformations and processes applied.
+The primary goal of our website is to generate methodologically sound surrogates for use in research. This entails a clean, sampled, and anonymized dataset that they can use for sophisticated analysis combined with the accessibility of just a few clicks. Through our website, users can draw on datasets personally catered for their needs, that would normally be unattainable. Once the user defines their sample, they are able to interact with a data visualization platform. This platform allows users to have a more hands-on experience with the data through the forms of zooming, plotting, layering, and further querying. They also have the choice of saving this data frame in multiple different forms of files. 
 
-
-
-## TASKS/TODO 
-https://docs.google.com/document/d/e/2PACX-1vS1-LZisvTjE7qKXcrUZaw84BN84IDR9cNILyL9GU_-4lRE-er6wL_ItQ_AmQ74DNYdX2eY0fZtxcYR/pub
 
 # Time Frame Submissions
 [X] Declare team (Saturday) 
 [X] Idea Video (Sunday 4pm)
-[_] Submission Video 
-[ ] Submission (Friday 1:30pm) 
+[X] Submission Video 
+[X] Submission (Friday 1:00pm) 
 
 
 # Technology 
-- gis
-- Juypter Notebook 
 - Python
-- ArcGIS REST API -> interactive mapping system from the extracted, sample, aggregated and queried data. 
 - React 
+- Flask
+- GIS
+- Juypter Notebook 
+- ArcGIS REST API -> interactive mapping system from the extracted, sample, aggregated and queried data. 
 - Git
 
 # Opening Data, Jittering 
 Goal: 
 
-1. Juypyter notebook and server
-2. Download and store data (csv, shapefile)
+1. Juypyter notebook
+2. Download and store data (csv, tab file, shapefile)
 - look into efficiency of storing, runtime, etc. and combining the tables 
-- Drop columns with NaN values above a certain threshold (~95%)
+- Drop columns with NaN values above a certain threshold (~75%)
 - Drop columns that have personal information 
 3. Join datasets based on identifiers
 4. Set up ways for sampling and aggregated data sets
 - research for best
 5. Data jittering 
 - By surrogates, we mean files that are jittered, aggregated, or obscured enough to have a reasonable level of privacy; files that are true national samples that are random, but also samples that follow other established methodologies.
-6. 
+6. Interactive Data Visualization and further Data Analysis
+7. KNN Classification 
+8. Variance Observation Using PCA 
+9. Data Annonomization 
+10. Aggeration based on user input
+11. Data Cleaning
+12. Making it usable for the common person
+
 
 # Making data more Attainable 
-Goal: Website where users can use simple input identifiers to sample data. Get specific state, or joins, and return anonomized results, graphs, tables, percentages, statistical stuff -> point to where to focus elections and all. 
+Goal:
 
 1. Create Website hosted on github
 2. Page for juypter code
 3. Home page with search bars 
-- also have data visualization 
-4. Efficiency and Accuracy page
+- also have data visualization hosting platform for further analysis 
+4. Aggregated data to reduce size and time complexity
 
-# Niche Topics to StandOut
-1. PCA to help users understand what factors affect certian outcome the most
-- need to convert categorical data into numeric data
-  - Need to figure out what columns are categorical 
 
+
+# Bonus Video; Classification and ML Possibilities
+https://youtu.be/U_ekKl-uQO8
