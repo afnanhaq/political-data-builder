@@ -1,1 +1,9 @@
 #requirements that for installing
+
+
+#connect ipynb files in jupyter
+pip install ipynb --upgrade
+
+#ArcGIS API
+conda install -c esri ArcGIS
+
