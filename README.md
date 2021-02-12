@@ -1,5 +1,7 @@
 # political-data-builder
 
+## INTRODUCTION VIDEO: https://youtu.be/gscW91zEgXA
+
 The primary goal of our website is to generate methodologically sound surrogates for use in research. This entails a clean, sampled, and anonymized dataset that they can use for sophisticated analysis combined with the accessibility of just a few clicks. Through our website, users can draw on datasets personally catered for their needs, that would normally be unattainable. Once the user defines their sample, they are able to interact with a data visualization platform. This platform allows users to have a more hands-on experience with the data through the forms of zooming, plotting, layering, and further querying. They also have the choice of saving this data frame in multiple different forms of files. 
 
 
