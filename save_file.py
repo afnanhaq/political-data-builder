@@ -9,7 +9,8 @@ passed as arguements.
 
 import pandas as pd
 from tkinter import * 
-from tkinter import ttk 
+from tkinter import ttk
+import geopandas
 # import only asksaveasfile from filedialog 
 # which is used to save file in any extension 
 from tkinter.filedialog import asksaveasfile 
@@ -17,14 +18,33 @@ from tkinter.filedialog import asksaveasfile
 
 #Save File as CSV or TAB or ShapeFile 
 #TODO Finish this and test does not take in a df to save 
-def start(df):
+def start(df, outputType):
     root = Tk() 
     root.geometry('200x150') 
     root.title("File Explorer")
-    save(df)
+    save(df, outputType)
 
-def save(df): 
-    file_to_save = df.to_csv(sep=",")
+def save(df, outputType):
+    if outputType == 'csv':
+        df.to_csv('data.csv', sep=",")
+    elif outputType == 'tsv':
+        df.to_csv('data.tsv', sep="\t")
+    elif outputType == 'shapefile':
+        df = df.loc[:, ['Residence_Addresses_Latitude', 'Residence_Addresses_Longitude']].dropna()
+        df['Residence_Addresses_Latitude'] = pd.to_numeric(df['Residence_Addresses_Latitude'])
+        df['Residence_Addresses_Longitude'] = pd.to_numeric(df['Residence_Addresses_Longitude'])
+        coord = (df[['Residence_Addresses_Longitude', 'Residence_Addresses_Latitude']])
+        coord.columns = ['x', 'y']
+        gdf.set_geometry(
+            geopandas.points_from_xy(coord['x'], gdf['y']),
+            inplace=True, crs='EPSG:4326')
+        gdf.to_file('data.shp')
+        #geo_df = geopandas.GeoDataFrame(df, geometry='geometry')
+        #print(geo_df)
+        #geo_df.crs = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+        #geo_df.to_file('data.shp', driver='ESRI Shapefile')
+
+    '''
     files = [('CSV Files', '*.csv'), 
              ('Shape Files', '.shp'), 
              ('TAB Files', '*.tab')] 
@@ -33,7 +53,7 @@ def save(df):
 
     btn = ttk.Button(root, text = 'Save', command = lambda : save()) 
     btn.pack(side = TOP, pady = 20) 
-
+    '''
  
 
 # merged_agg(df) reads voter information and returns aggregated 
@@ -76,6 +96,6 @@ def main():
   
     # Create the pandas DataFrame 
     df = pd.DataFrame(data, columns = ['Name', 'Age'])
-    start(df)
+    start(df, outputType)
 
 main()
