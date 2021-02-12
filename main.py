@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
 from zipfile import ZipFile 
+import sys
 
 
 import os
@@ -11,7 +12,10 @@ import os
 #Files to include 
 from remove import remove_null, drop_private
 from cleaning import *
-#from classification import *
+from jittering import *
+from classification import *
+from visualization import *
+from save_file import *
 
 #Global Variables
 #keys: State_typeOfFile        Item: DataFrame
@@ -83,11 +87,10 @@ def zip_extractor(place):
     zip.close()
     demographics = pd.read_csv(demographics_file, 
                                 sep='\t', dtype=str, encoding='unicode_escape',
-                               nrows=10000)
+                               nrows=1000)
     vote_history = pd.read_csv(vote_history_file, 
                                 sep='\t', dtype=str, encoding='unicode_escape',
-                                nrows=10000)
-    
+                                nrows=1000)
     return demographics, vote_history
 
 
@@ -214,6 +217,27 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
         pass
 
     return output
+    
+    #Link for ArcGIS Data Visualization 
+    """
+    link = visualization(df)
+    print(link)
+    if sys.platform=='win32':
+        os.startfile(link)
+    elif sys.platform=='darwin':
+        subprocess.Popen(['open', link])
+    else:
+        try:
+            subprocess.Popen(['xdg-open', link])
+        except OSError:
+            print('Please open a browser on: '+ link)
+    """
+
+    #TODO only for demographic 
+    # converting election results to numeric (resource heavy)
+    #df = election_numeric_converter()
+
+
     """
     Requires better processing 
     Requirements: 
@@ -235,4 +259,8 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
     #TODO if time 
 
     #Saving Resulting DataFrame to CSV
+    #TODO pass in the df to save in save_file.py
+    #start()
     #stripped_sample.to_csv(r'virginia-onepercent-sample.csv', index=False, encoding='utf-8')
+
+
