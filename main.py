@@ -232,6 +232,7 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
     elif outputType == "shapefile":
         pass
     print("======= DONE OUTPUTTING FILE. CHECK YOUR FOLDER ===========")
+
     if informationType == "VD" or informationType == "V":
         #Link for ArcGIS Data Visualization 
         link = visualization(df)
@@ -246,6 +247,8 @@ def main(sampleType, whichState, sampleTechnique, sampleSize, informationType, o
             except OSError:
                 print('Please open a browser on: '+ link)
     return True
+
+    start(df, outputType)
     
     
     
